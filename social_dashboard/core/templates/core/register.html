@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-dark p-8 rounded shadow-md w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-6 text-center">Register</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="space-y-4">
+                {{ form.as_p }}
+                <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+                    Register
+                </button>
+            </div>
+        </form>
+        <p class="mt-4 text-center text-sm text-gray-600">
+            Already have an account?
+            <a href="{% url 'login_view' %}" class="text-blue-500 hover:underline">Login</a>
+        </p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+{% block title %}Facebook Feed{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-semibold mb-6">Facebook Page Feed</h2>
+
+{% if pages %}
+    <p class="mb-4">Showing posts from: <strong>{{ pages.0.name }}</strong></p>
+{% else %}
+    <p class="text-red-500">No pages found.</p>
+{% endif %}
+
+<div class="space-y-4">
+    {% for post in posts %}
+    <div class="bg-white p-4 rounded shadow space-y-2">
+        {% if post.full_picture %}
+            <img src="{{ post.full_picture }}" alt="Post Image" class="w-full h-auto rounded">
+        {% endif %}
+    
+        {% if post.message %}
+            <p class="text-gray-800">{{ post.message }}</p>
+        {% endif %}
+    
+        <div class="text-sm text-gray-500 flex justify-between">
+            <span>📅 {{ post.created_time|date:"M d, Y H:i" }}</span>
+            <a href="{{ post.permalink_url }}" target="_blank" class="text-blue-500 hover:underline">View on Facebook</a>
+        </div>
+    
+        <div class="flex items-center space-x-4 text-sm text-gray-600 mt-1">
+            {% if post.likes.summary.total_count %}
+                <span>❤️ {{ post.likes.summary.total_count }} Likes</span>
+            {% endif %}
+            {% if post.comments.summary.total_count %}
+                <span>💬 {{ post.comments.summary.total_count }} Comments</span>
+            {% endif %}
+        </div>
+    </div>
+    
+    {% empty %}
+        <p class="text-gray-500">No posts found for this page.</p>
+    {% endfor %}
+</div>
+{% endblock %}

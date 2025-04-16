@@ -1,0 +1,48 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Profile Settings{% endblock %}
+
+{% block content %}
+    <h2 class="text-2xl font-semibold mb-6">Profile Settings</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="mb-4 p-3 bg-green-100 text-green-800 rounded">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Profile Update -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="update_profile" value="1">
+            <div class="bg-dark p-4 shadow rounded space-y-4">
+                <h3 class="font-bold text-lg mb-2">Update Profile</h3>
+        
+                {% if request.user.profile_picture %}
+                    <img src="{{ request.user.profile_picture.url }}" alt="Profile Picture" class="w-24 h-24 object-cover rounded-full mb-4">
+                {% else %}
+                    <p class="text-sm text-gray-400">No profile picture uploaded.</p>
+                {% endif %}
+        
+                {{ profile_form.as_p }}
+        
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save</button>
+            </div>
+        </form>
+        
+
+        <!-- Password Change -->
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="change_password" value="1">
+            <div class="bg-dark p-4 shadow rounded space-y-4">
+                <h3 class="font-bold text-lg mb-2">Change Password</h3>
+                {{ password_form.as_p }}
+                <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Change Password</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
